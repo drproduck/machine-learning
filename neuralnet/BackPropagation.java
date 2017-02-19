@@ -7,7 +7,7 @@ import java.util.List;
 public class BackPropagation {
     private NeuralNetwork network;
     private Vector[] examples;
-    private static final double precision = 0.25;
+    private static final double precision = 0.05;
     public BackPropagation(NeuralNetwork net, Vector[] exs) {
         network = net;
         examples = exs;

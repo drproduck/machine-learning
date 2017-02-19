@@ -5,7 +5,7 @@ import java.util.Arrays;
  */
 public class Main{
     public static void main(String[] args) throws Exception {
-        NeuralNetwork n = NeuralNetwork.makeCompleteNetwork(3, 5, 5, 1);
+        NeuralNetwork n = NeuralNetwork.makeCompleteNetwork(4, 3, 5, 5, 1);
         Vector[] examples = new Vector[1000];
         for (int i = 0; i < 1000; i++) {
             double a = -100 + 200 * Math.random();
@@ -33,14 +33,17 @@ public class Main{
         }
 
          */
-        double a = -100 + 200 * Math.random();
-        double b = -100 + 200 * Math.random();
-        double c = -100 + 200 * Math.random();
-        System.out.println("manual test: a*b+c");
-        Vector v = new Vector(new Vector(6), a, b, c);
-        System.out.printf("%f, %f, %f", a, b, c);
-        System.out.println(Arrays.toString(n.solve(v)));
-
+        int i = 10;
+        while (i > 0) {
+            double a = -100 + 200 * Math.random();
+            double b = -100 + 200 * Math.random();
+            double c = -100 + 200 * Math.random();
+            System.out.println("manual test: a*b+c");
+            Vector v = new Vector(new Vector((a * b + c >= 0) ? 1 : 0), a, b, c);
+            System.out.printf("%f, %f, %f, expected output is: %f\n", a, b, c, v.getOutput().x(0));
+            System.out.println(Arrays.toString(n.solve(v)));
+            i--;
+        }
     }
 
 }
