@@ -1,10 +1,19 @@
 import numpy as np
+from pylab import *
 
 class mlp:
     """ A Multi-Layer Perceptron"""
 
     def __init__(self, inputs, targets, nhidden, beta=1, momentum=0.9, outtype='logistic'):
-        """ Constructor """
+        """
+        Constructor
+        :param inputs:
+        :param targets:
+        :param nhidden:
+        :param beta: some constant for logistic function
+        :param momentum: accelerate learning rate
+        :param outtype:
+        """
         # Set up network size
         self.nin = np.shape(inputs)[1]
         self.nout = np.shape(targets)[1]
@@ -20,6 +29,15 @@ class mlp:
         self.weights2 = (np.random.rand(self.nhidden + 1, self.nout) - 0.5) * 2 / np.sqrt(self.nhidden)
 
     def earlystopping(self, inputs, targets, valid, validtargets, eta, niterations=100):
+        """
+        :param inputs:
+        :param targets:
+        :param valid:
+        :param validtargets:
+        :param eta: learning rate
+        :param niterations:
+        :return:
+        """
 
         valid = np.concatenate((valid, -np.ones((np.shape(valid)[0], 1))), axis=1)
 
@@ -40,7 +58,7 @@ class mlp:
         print("Stopped", new_val_error, old_val_error1, old_val_error2)
         return new_val_error
 
-    def mlptrain(self, inputs, targets, eta, niterations):
+    def mlptrain(self, inputs, targets, eta, niterations, pl=False):
         """ Train the thing """
         # Add the inputs that match the bias node
         inputs = np.concatenate((inputs, -np.ones((self.ndata, 1))), axis=1)
@@ -49,12 +67,15 @@ class mlp:
         updatew1 = np.zeros((np.shape(self.weights1)))
         updatew2 = np.zeros((np.shape(self.weights2)))
 
+        p = empty((1,2))
         for n in range(niterations):
-
             self.outputs = self.mlpfwd(inputs)
 
             error = 0.5 * np.sum((self.outputs - targets) ** 2)
-            if (np.mod(n, 100) == 0):
+            if pl:
+                p = concatenate((p, array([[n, error]])))
+
+            if np.mod(n, 50) == 0:
                 print("Iteration: ", n, " Error: ", error)
 
                 # Different types of output neurons
@@ -79,6 +100,8 @@ class mlp:
             # inputs = inputs[change,:]
             # targets = targets[change,:]
 
+        return p
+
     def mlpfwd(self, inputs):
         """ Run the network forward """
 
@@ -98,6 +121,12 @@ class mlp:
             return np.transpose(np.transpose(np.exp(outputs)) / normalisers)
         else:
             print("error")
+
+    def produce(self, inputs):
+        """Test the network"""
+
+        inputs = np.concatenate((inputs, -np.ones((np.shape(inputs)[0],1))), axis=1)
+        return self.mlpfwd(inputs)
 
     def confmat(self, inputs, targets):
         """Confusion matrix"""

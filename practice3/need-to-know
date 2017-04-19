@@ -1,0 +1,8 @@
+how to mean-normalize in 1 line of code:
+data = (data - data.mean(axis=0))/data.var(axis=0)
+targets = (targets - targets.mean(axis=0))/targets.var(axis=0)
+
+softmax
+hardmax: multi-classification: 1000, 0100, ...
+
+for mlp: always add -1 bias to the end of input before running it thru mlpfwd
