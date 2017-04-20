@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 
 batch_size = 150
-hidden1 = 20
-hidden2 = 10
+hidden1 = 30
+hidden2 = 30
 learning_rate = 0.01
 num_epochs = 30
 num_features = 30
