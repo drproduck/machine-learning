@@ -37,6 +37,7 @@ test_positive = sum(1 if x == 1 else 0 for x in test_target)
 test_negative = len(test_target) - test_positive
 print('test positive', test_positive)
 print('test negative', test_negative)
+total = test_positive + test_negative
 
 X = tf.placeholder(dtype=tf.float32, shape=(batch_size, num_features))
 Y = tf.placeholder(dtype=tf.float32, shape=(batch_size, 1))
@@ -94,14 +95,14 @@ with tf.Session() as sess:
         test_batch = test_target[batch_size*i:batch_size*(i+1), :]
 
         for j in range(len(test_batch)):
-            if np.abs(logits_batch[j] - test_batch[j] < 0.01):
+            if np.abs(logits_batch[j] - test_batch[j]) < 0.01:
                 correct_preds += 1
             if np.abs(test_batch[j] - logits_batch[j]) < 0.01:
                 if test_batch[j] == 1:
                     true_positive += 1
                 else: true_negative += 1
 
-    print('correct predictions: {0}'.format(correct_preds))
+    print('correct predictions: {0}'.format(correct_preds/total))
     print('true positive: {0}'.format(true_positive/test_positive))
     print('true negative: {0}'.format(true_negative/test_negative))
 
