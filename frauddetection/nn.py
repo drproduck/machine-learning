@@ -7,7 +7,7 @@ hidden1 = 30
 hidden2 = 30
 learning_rate = 0.01
 num_epochs = 30
-num_features = 30
+num_features = 6
 dropout = 1
 
 fraud = np.load('fraud.npy')
@@ -54,7 +54,7 @@ w3 = tf.Variable(tf.truncated_normal((hidden2, 1), stddev=0.01))
 b3 = tf.Variable(tf.zeros((1, 1)))
 logits = tf.matmul(y2, w3) +  b3
 
-loss = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=30))
+loss = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=15))
 #loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=Y, logits=logits))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)

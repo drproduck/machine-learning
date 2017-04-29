@@ -17,12 +17,15 @@ positive_train = positive[::2,:]
 positive_test = positive[1::2,:]
 
 train = np.concatenate((negative_train, positive_train), axis=0)
+np.random.shuffle(train)
 tet = np.concatenate((negative_test, positive_test), axis=0)
+np.random.shuffle(tet)
 
 train_input = train[:,0:31]
 train_target = train[:,31:32]
 test_input = tet[:,0:31]
 test_target = tet[:,31:32]
+
 test_negative = sum(1 if x == 0 else 0 for x in test_target)
 test_positive = sum(1 if x == 1 else 0 for x in test_target)
 test_total = len(test_target)
@@ -31,8 +34,8 @@ print(test_negative, test_positive, test_total)
 batch_size = 32
 hidden1 = 60
 n_feature = 31
-learning_rate = 0.001
-n_epoch = 100
+learning_rate = 0.1
+n_epoch = 200
 
 X = tf.placeholder(dtype=tf.float64, shape=(batch_size, n_feature))
 Y = tf.placeholder(dtype=tf.float64, shape=(batch_size, 1))
@@ -45,7 +48,7 @@ b2 = tf.Variable(tf.truncated_normal(shape=(1, 1), stddev=0.01, dtype=tf.float64
 
 logits = tf.matmul(tf.matmul(X, w1) + b1, w2) + b2
 
-loss = tf.reduce_mean(tf.nn .weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=1.5))
+loss = tf.reduce_mean(tf.nn .weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=2))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
 
@@ -58,7 +61,8 @@ with tf.Session() as sess:
             X_batch, Y_batch = train_input[batch_size*j:batch_size*(j+1), :], train_target[batch_size*j:batch_size*(j+1),:]
             _, cost = sess.run([optimizer, loss], feed_dict={X: X_batch, Y:Y_batch})
             total_cost += cost
-        print('loss epoch {0}: {1}'.format(i+1, total_cost/n_batch))
+        if i % 100 == 0:
+            print('loss epoch {0}: {1}'.format(i+1, total_cost/n_batch))
 
     #test
     true_positive = 0
@@ -67,8 +71,9 @@ with tf.Session() as sess:
     for j in range(n_batch):
         X_batch, Y_batch = test_input[batch_size * j:batch_size * (j + 1), :], test_target[ batch_size * j:batch_size * (j + 1),:]
         output = sess.run(tf.nn.sigmoid(logits), feed_dict={X: X_batch})
+        print(output[:2, :], Y_batch[:2, :])
         for k in range(len(X_batch)):
-            if abs(output[k] - Y_batch[k]) < 0.01:
+            if abs(output[k] - Y_batch[k]) < 0.1:
                 correct_pred += 1
                 if Y_batch[k] == 1: true_positive += 1
                 else: true_negative += 1

@@ -41,3 +41,9 @@ print(a)
 c = [1.0 if x == 1.0 else 0.0 for x in c]
 print(c)
 
+import random
+import tensorflow as tf
+a = [random.randrange(1, 50) for x in range(5)]
+np.random.shuffle(a)
+print(a)
+
