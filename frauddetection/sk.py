@@ -3,30 +3,35 @@ import numpy as np
 import pylab as pl
 
 df = pd.read_csv("/home/drproduck/Downloads/creditcard.csv")
-print(df.tail())
-
-
-grouped_taget = df.groupby(by='Class', sort=False)
-print(grouped_taget.agg([np.min, np.max]))
-
 
 from sklearn import ensemble
+features = ['V7', 'V10', 'V18', 'V4', 'V9', 'V16', 'V14', 'V11', 'V17', 'V12']
+print(features)
+allfeatures = ['V7', 'V10', 'V18', 'V4', 'V9', 'V16', 'V14', 'V11', 'V17', 'V12', 'Class']
+print(allfeatures)
+truncated = df[allfeatures]
 
-ju = ensemble.RandomForestClassifier()
-ju.fit(df.iloc[:, 0:30], df.Class)
-importances = ju.feature_importances_
-sorted_idx = np.argsort(importances)
+truncated.groupby(df.Class).apply(len)
 
-padding = np.arange(30) + 0.5
-pl.barh(padding, importances[sorted_idx], align='center')
-pl.yticks(padding, df.columns[sorted_idx])
-pl.xlabel("Relative Importance")
-pl.title("Variable Importance")
+positive = truncated[truncated.Class==1]
+negative = truncated[truncated.Class==0]
+test_set = pd.concat((positive.iloc[::2, :], negative.iloc[::2, :]), axis=0)
+train_set = pd.concat((positive.iloc[1::2, :], negative.iloc[1::2, :]), axis=0)
 
-# import seaborn as sns
-#
-# sns.distplot(df.Amount[df.Class == 1], bins=50)
-# sns.distplot(df.Amount[df.Class== 0], bins=50)
-pl.show()
+print(test_set.groupby(df.Class).apply(len))
+print(train_set.groupby(df.Class).apply(len))
 
-df = df[['V14', 'V12', 'V16', '']]
+def train_and_test_with(mlfunc_list):
+    for func, name in mlfunc_list:
+        func.fit(train_set[features], train_set.Class)
+        print(name+'\n', pd.crosstab(test_set.Class, func.predict(test_set[features])), '\n')
+
+from sklearn import svm
+from sklearn import tree
+train_and_test_with([(ensemble.RandomForestClassifier(), 'random forest'), (ensemble.AdaBoostClassifier(), 'adaptive boosting'),
+                     (ensemble.BaggingClassifier(), 'bagging'), (ensemble.ExtraTreesClassifier(), 'extra tree'),
+                     (ensemble.GradientBoostingClassifier(), 'gradient boosting')])
+
+train_and_test_with([(tree.DecisionTreeClassifier(), 'decision tree'), (svm.SVC(), 'support vector machine')])
+
+from sklearn import naive_bayes
