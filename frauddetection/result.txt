@@ -1,0 +1,132 @@
+Random forest and gradient boosting with all features 
+random forest with 30 features: 
+
+142121.0  31.0   
+62.0      193.0  
+run time: 22955737483
+F1 score: 0.9993469422149193
+
+gradient tree boosting with 30 features
+
+run time: 29381607070
+Confusion matrix: 
+142127.0  25.0   
+67.0      188.0  
+true positive ratio: 0.9998241319151331
+true negative ratio: 0.7372549019607844
+F1 score: 0.9993539643416405
+--------------------------------------
+decision tree with 30 features
+
+run time: 14790717570
+Confusion matrix: 
+142129.0  23.0   
+97.0      158.0  
+true positive ratio: 0.9998382013619225
+true negative ratio: 0.6196078431372549
+F1 score: 0.9991573447934441
+--------------------------------------
+neural network (10, 30, 30, 2) with 30 features
+
+run time: 122682817780
+Confusion matrix: 
+142152.0  0.0  
+255.0     0.0  
+true positive ratio: 1.0
+true negative ratio: 0.0
+F1 score: 0.9982093576860688
+--------------------------------------
+Ranking of feature importance
+V16, 0.16131956112313212
+V14, 0.1484597040812218
+V10, 0.10297991082381389
+V7, 0.09872992514012482
+V11, 0.07544810366203275
+V12, 0.07180362890167999
+V4, 0.070035554811783
+V17, 0.062455774945317274
+V9, 0.06141891477586756
+V3, 0.05923038209265088
+V21, 0.010120778499720831
+V27, 0.008998620891633632
+V18, 0.008470598244845515
+V26, 0.006993831417251102
+V2, 0.006263768806628662
+V5, 0.006240343811258065
+V22, 0.004489385081621003
+V28, 0.004248489291135776
+V8, 0.0038233945832178004
+Amount, 0.003745022214011711
+V24, 0.003669309201196777
+V13, 0.003117703587193123
+V15, 0.0028676871636809176
+V6, 0.0027143981697398513
+V20, 0.002642105685725957
+Time, 0.00257585702082067
+V23, 0.002556802119819636
+V19, 0.001962424851836138
+V1, 0.0015547895167212927
+V25, 0.0010632294843172661
+
+decision tree with 10 features
+
+run time: 9987905708
+Confusion matrix: 
+142150.0  39.0   
+69.0      184.0  
+true positive ratio: 0.9997257171792473
+true negative ratio: 0.7272727272727273
+F1 score: 0.9992417966610971
+--------------------------------------
+random forest with 10 features
+
+run time: 13483616502
+Confusion matrix: 
+142157.0  32.0   
+66.0      187.0  
+true positive ratio: 0.999774947429126
+true negative ratio: 0.7391304347826086
+F1 score: 0.9993120006739585
+--------------------------------------
+gradient tree boosting with 10 features
+
+run time: 17562318455
+Confusion matrix: 
+142150.0  39.0   
+69.0      184.0  
+true positive ratio: 0.9997257171792473
+true negative ratio: 0.7272727272727273
+F1 score: 0.9992417966610971
+--------------------------------------
+neural network (10, 30, 2) with 10 features
+
+run time: 30995833623
+Confusion matrix: 
+142165.0  24.0   
+63.0      190.0  
+true positive ratio: 0.9998312105718445
+true negative ratio: 0.7509881422924901
+F1 score: 0.999389225088106
+--------------------------------------
+
+No significant improvement?
+
+methods sorted by run time: 
+decision tree with 10 features	9987905708	0.9992417966610971
+random forest with 10 features	13483616502	0.9993120006739585
+decision tree with 30 features	14790717570	0.9991573447934441
+gradient tree boosting with 10 features	17562318455	0.9992417966610971
+random forest with 30 features	22955737483	0.9993469422149193
+gradient tree boosting with 30 features	29381607070	0.9993539643416405
+neural network (10, 30, 2) with 10 features	30995833623	0.999389225088106
+neural network (10, 30, 30, 2) with 30 features	122682817780	0.9982093576860688
+--------------------------------------
+methods sorted by F1 score: 
+neural network (10, 30, 30, 2) with 30 features	122682817780	0.9982093576860688
+decision tree with 30 features	14790717570	0.9991573447934441
+decision tree with 10 features	9987905708	0.9992417966610971
+gradient tree boosting with 10 features	17562318455	0.9992417966610971
+random forest with 10 features	13483616502	0.9993120006739585
+random forest with 30 features	22955737483	0.9993469422149193
+gradient tree boosting with 30 features	29381607070	0.9993539643416405
+neural network (10, 30, 2) with 10 features	30995833623	0.999389225088106
