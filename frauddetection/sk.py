@@ -21,6 +21,14 @@ train_set = pd.concat((positive.iloc[1::2, :], negative.iloc[1::2, :]), axis=0)
 print(test_set.groupby(df.Class).apply(len))
 print(train_set.groupby(df.Class).apply(len))
 
+import seaborn as sns
+
+for feature in ['V14', 'V10', 'V17', 'V26', 'V7', 'V20']:
+    pl.title(feature)
+    sns.distplot(df[feature].iloc[np.where(df.Class == 1)])
+    sns.distplot(df[feature].iloc[np.where(df.Class == 0)])
+    pl.savefig(feature)
+
 def train_and_test_with(mlfunc_list):
     for func, name in mlfunc_list:
         func.fit(train_set[features], train_set.Class)

@@ -6,8 +6,8 @@ batch_size = 150
 hidden1 = 30
 hidden2 = 30
 learning_rate = 0.01
-num_epochs = 30
-num_features = 6
+num_epochs = 50
+num_features = 10
 dropout = 1
 
 fraud = np.load('fraud.npy')
@@ -54,10 +54,10 @@ w3 = tf.Variable(tf.truncated_normal((hidden2, 1), stddev=0.01))
 b3 = tf.Variable(tf.zeros((1, 1)))
 logits = tf.matmul(y2, w3) +  b3
 
-loss = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=15))
+loss = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(targets=Y, logits=logits, pos_weight=50))
 #loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=Y, logits=logits))
 
-optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
 
 n_batches = len(train_input) // batch_size
 print('number of batches:',n_batches)
@@ -103,8 +103,8 @@ with tf.Session() as sess:
                 else: true_negative += 1
 
     print('correct predictions: {0}'.format(correct_preds/total))
-    print('true positive: {0}'.format(true_positive/test_positive))
-    print('true negative: {0}'.format(true_negative/test_negative))
+    print('true positive: {0} / {1}'.format(true_positive,test_positive))
+    print('true negative: {0} / {1}'.format(true_negative,test_negative))
 
 
 

@@ -4,8 +4,8 @@ import numpy as np
 def process(drop):
     df = pd.read_csv("/home/drproduck/Downloads/creditcard.csv")
     if drop:
-        num_features = 6
-        features = ['V14', 'V4', 'V16', 'V17', 'V12', 'V10', 'Class']
+        num_features = 10
+        features = ['V7', 'V10', 'V18', 'V4', 'V9', 'V16', 'V14', 'V11', 'V17', 'V12', 'Class']
         df = df[features]
 
     else: num_features = 30
