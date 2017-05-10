@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pylab as pl
 
-df = pd.read_csv("/home/drproduck/Downloads/creditcard.csv")
+df = pd.read_csv("/home/drproduck/Documents/creditcard.csv")
 
 from sklearn import ensemble
 features = ['V7', 'V10', 'V18', 'V4', 'V9', 'V16', 'V14', 'V11', 'V17', 'V12']
@@ -23,10 +23,11 @@ print(train_set.groupby(df.Class).apply(len))
 
 import seaborn as sns
 
-for feature in ['V14', 'V10', 'V17', 'V26', 'V7', 'V20']:
+for feature in df.columns:
+    pl.figure()
     pl.title(feature)
-    sns.distplot(df[feature].iloc[np.where(df.Class == 1)])
-    sns.distplot(df[feature].iloc[np.where(df.Class == 0)])
+    sns.distplot(df[feature][df.Class==1])
+    sns.distplot(df[feature][df.Class==0])
     pl.savefig(feature)
 
 def train_and_test_with(mlfunc_list):
